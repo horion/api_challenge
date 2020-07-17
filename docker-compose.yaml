@@ -1,0 +1,26 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    build: api
+    network_mode: "host"
+    restart: always
+    volumes:
+      - ./api/target:/usr/local/dextra/api/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
+        max-file: "3"
+  database:
+    image: 'mongo'
+    container_name: database
+    environment:
+      - MONGO_INITDB_DATABASE=dextra_api
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=DEXTRA2020#!
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - '27017-27019:27017-27019'
