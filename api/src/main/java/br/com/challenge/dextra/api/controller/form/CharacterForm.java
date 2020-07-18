@@ -2,16 +2,28 @@ package br.com.challenge.dextra.api.controller.form;
 
 import br.com.challenge.dextra.api.model.Character;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class CharacterForm implements Form<Character> {
 
     public Character converter() {
         return new Character(this.name, this.role, this.school, this.house, this.patronus);
     }
 
+    @NotNull
+    @NotEmpty
     private String name;
+    @NotNull
+    @NotEmpty
     private String role;
+    @NotNull
+    @NotEmpty
     private String school;
+    @NotNull
+    @NotEmpty
     private String house;
+
     private String patronus;
 
     public Character update(Character characterDB) {
