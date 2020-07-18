@@ -1,6 +1,8 @@
 package br.com.challenge.dextra.api.controller;
 
 import br.com.challenge.dextra.api.controller.dto.CharacterDTO;
+import br.com.challenge.dextra.api.controller.dto.ErrorFormDto;
+import br.com.challenge.dextra.api.controller.dto.Response;
 import br.com.challenge.dextra.api.controller.exception.HouseNotFoundException;
 import br.com.challenge.dextra.api.controller.form.CharacterForm;
 import br.com.challenge.dextra.api.model.Character;
@@ -27,7 +29,6 @@ public class CharacterController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CharacterController.class);
 
-    //TODO RETURN MESSAGE
     private final CharacterService characterService;
 
     public CharacterController(CharacterService characterService) {
@@ -36,8 +37,8 @@ public class CharacterController {
 
     @GetMapping
     @Cacheable(value = "listCharacters")
-    public Page<CharacterDTO> listCharacters(@RequestParam(required = false) String house,
-                                             @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+    public Page<Response> listCharacters(@RequestParam(required = false) String house,
+                                         @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
         Page<Character> characterPage;
         if(house == null)
             characterPage = characterService.listCharacters(pageable);
@@ -49,15 +50,15 @@ public class CharacterController {
 
     @PostMapping
     @CacheEvict(value = "listCharacters", allEntries = true)
-    public ResponseEntity<CharacterDTO> create(@RequestHeader String token, @RequestBody
+    public ResponseEntity<Response> create(@RequestHeader String token, @RequestBody
     @Valid CharacterForm form, UriComponentsBuilder uriComponentsBuilder){
         try {
             Character character = characterService.merge(token,form.converter());
             URI uri = uriComponentsBuilder.path("/character/{id}").buildAndExpand(character.getId()).toUri();
             return ResponseEntity.created(uri).body(new CharacterDTO(character));
         }catch (HouseNotFoundException e){
-            LOGGER.error("House not Found by id");
-            return ResponseEntity.badRequest().build();
+            LOGGER.error(e.getMessage(),e);
+            return ResponseEntity.badRequest().body(new ErrorFormDto("house","Not found house by id"));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -66,7 +67,7 @@ public class CharacterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CharacterDTO> detail(@PathVariable String id){
+    public ResponseEntity<Response> detail(@PathVariable String id){
         Character characterDB = characterService.getById(id);
         if(characterDB == null){
             return ResponseEntity.notFound().build();
@@ -76,7 +77,7 @@ public class CharacterController {
 
     @PutMapping("/{id}")
     @CacheEvict(value = "listCharacters", allEntries = true)
-    public ResponseEntity<CharacterDTO> update(@RequestBody @Valid CharacterForm form, @PathVariable String id,@RequestHeader String token){
+    public ResponseEntity<Response> update(@RequestBody @Valid CharacterForm form, @PathVariable String id,@RequestHeader String token){
         try{
             Character characterDB = characterService.getById(id);
             if(characterDB == null){
@@ -86,7 +87,7 @@ public class CharacterController {
             return ResponseEntity.ok(body);
         }catch (HouseNotFoundException e){
             LOGGER.error("House not Found by id");
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(new ErrorFormDto("house","Not found house by id"));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

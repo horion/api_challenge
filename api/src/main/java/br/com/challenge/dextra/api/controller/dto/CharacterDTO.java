@@ -3,9 +3,7 @@ package br.com.challenge.dextra.api.controller.dto;
 import br.com.challenge.dextra.api.model.Character;
 import org.springframework.data.domain.Page;
 
-import java.io.Serializable;
-
-public class CharacterDTO implements Serializable {
+public class CharacterDTO extends Response {
 
     private static final long serialVersionUID = -6636737612641449445L;
     private String id;
@@ -24,7 +22,7 @@ public class CharacterDTO implements Serializable {
         this.patronus = character.getPatronus();
     }
 
-    public static Page<CharacterDTO> converter(Page<Character> characterPage) {
+    public static Page<Response> converter(Page<Character> characterPage) {
         return characterPage.map(CharacterDTO::new);
     }
 

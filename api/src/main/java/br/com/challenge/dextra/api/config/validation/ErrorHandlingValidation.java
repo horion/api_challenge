@@ -1,5 +1,6 @@
 package br.com.challenge.dextra.api.config.validation;
 
+import br.com.challenge.dextra.api.controller.dto.ErrorFormDto;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
