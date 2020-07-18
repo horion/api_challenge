@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/character")
+@RequestMapping("/characters")
 public class CharacterController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CharacterController.class);
