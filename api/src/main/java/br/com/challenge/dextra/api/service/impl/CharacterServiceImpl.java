@@ -15,14 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
-    public static final String HOUSES = "/houses/";
-    public static final String KEY = "/?key=";
-    public static final String ID = "_id";
+    private static final String HOUSES = "/houses/";
+    private static final String KEY = "/?key=";
+    private static final String ID = "_id";
     private final RestTemplate template;
     @Value("${harry.potter.server}")
     private String server;
