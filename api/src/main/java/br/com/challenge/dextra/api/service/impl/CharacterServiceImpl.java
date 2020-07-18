@@ -44,7 +44,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Character getById(Long id) {
+    public Character getById(String id) {
         return characterRepository.findById(id).orElse(null);
     }
 
@@ -65,7 +65,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         characterRepository.deleteById(id);
     }
 }

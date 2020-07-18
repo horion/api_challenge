@@ -3,7 +3,6 @@ services:
   api:
     container_name: api
     build: api
-    network_mode: "host"
     restart: always
     volumes:
       - ./api/target:/usr/local/dextra/api/
@@ -11,7 +10,11 @@ services:
       driver: "json-file"
       options:
         max-size: 50m
-        max-file: "3"
+        max-file: "3" 
+    ports:
+      - '9991:9991'
+    links:
+      - database
   database:
     image: 'mongo'
     container_name: database

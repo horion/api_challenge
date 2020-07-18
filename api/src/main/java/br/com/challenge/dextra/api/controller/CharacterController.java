@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import javax.transaction.Transactional;
+
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -66,7 +66,7 @@ public class CharacterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CharacterDTO> detail(@PathVariable Long id){
+    public ResponseEntity<CharacterDTO> detail(@PathVariable String id){
         Character characterDB = characterService.getById(id);
         if(characterDB == null){
             return ResponseEntity.notFound().build();
@@ -75,9 +75,8 @@ public class CharacterController {
     }
 
     @PutMapping("/{id}")
-    @Transactional
     @CacheEvict(value = "listCharacters", allEntries = true)
-    public ResponseEntity<CharacterDTO> update(@RequestBody @Valid CharacterForm form, @PathVariable Long id,@RequestHeader String token){
+    public ResponseEntity<CharacterDTO> update(@RequestBody @Valid CharacterForm form, @PathVariable String id,@RequestHeader String token){
         try{
             Character characterDB = characterService.getById(id);
             if(characterDB == null){
@@ -95,9 +94,8 @@ public class CharacterController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     @CacheEvict(value = "listCharacters", allEntries = true)
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable String id){
         Character characterDB = characterService.getById(id);
         if(characterDB == null){
             return ResponseEntity.notFound().build();

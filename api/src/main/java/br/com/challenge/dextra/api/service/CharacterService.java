@@ -13,9 +13,9 @@ public interface CharacterService {
 
     Page<Character> listCharactersByHouse(Pageable pageable, String filter);
 
-    Character getById(Long id);
+    Character getById(String id);
 
     Character merge(String token,Character character) throws IOException, HouseNotFoundException;
 
-    void deleteById(Long id);
+    void deleteById(String id);
 }
