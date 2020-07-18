@@ -11,7 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
 
     @Bean
-    public Docket forumApi() {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("br.com.challenge.dextra.api"))
                 .paths(PathSelectors.ant("/**")).build();
     }
