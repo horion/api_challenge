@@ -5,6 +5,7 @@ import br.com.challenge.dextra.api.model.Character;
 import br.com.challenge.dextra.api.repository.CharacterRepository;
 import br.com.challenge.dextra.api.service.CharacterService;
 import br.com.challenge.dextra.api.util.Util;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,7 +51,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public Character merge(String token,Character character) throws IOException, HouseNotFoundException {
-        if(validationHouse(character.getHouse(),token)){
+        if(!validationHouse(character.getHouse(),token)){
             throw new HouseNotFoundException();
         }
         return characterRepository.save(character);
@@ -60,8 +61,8 @@ public class CharacterServiceImpl implements CharacterService {
         String endpoint = server.concat(HOUSES).concat(houseId).concat(KEY).concat(token);
         ResponseEntity<String> responseEntity = template.exchange(endpoint, HttpMethod.GET, null, String.class);
         String body =  responseEntity.getBody();
-        HashMap<String,Object> map = Util.getMapJson(body);
-        return map.get(ID) != null;
+        JsonNode jsonNode = Util.getJson(body);
+        return jsonNode.get(0) != null && jsonNode.get(0).get(ID) != null;
     }
 
     @Override

@@ -21,6 +21,7 @@ public class Character {
         this.role = role;
         this.school = school;
         this.patronus = patronus;
+        this.house = house;
     }
 
     public Character(){};
