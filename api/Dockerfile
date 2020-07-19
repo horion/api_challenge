@@ -1,6 +1,6 @@
 FROM openjdk:11-jre-slim
 
-COPY staging/api-1.jar /usr/local/dextra/api/
+COPY Package/api-1.jar /usr/local/dextra/api/
 
 ENV TZ=America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
