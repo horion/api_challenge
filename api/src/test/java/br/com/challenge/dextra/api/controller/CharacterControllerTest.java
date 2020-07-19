@@ -4,29 +4,24 @@ import br.com.challenge.dextra.api.controller.exception.HouseNotFoundException;
 import br.com.challenge.dextra.api.controller.form.CharacterForm;
 import br.com.challenge.dextra.api.model.Character;
 import br.com.challenge.dextra.api.service.impl.CharacterServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,23 +32,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@WebMvcTest
+@DirtiesContext
 class CharacterControllerTest {
 
-    private MockMvc mockMvc;
-
     @Autowired
-    private WebApplicationContext wac;
+    private MockMvc mockMvc;
 
     @MockBean
     private CharacterServiceImpl characterService;
 
-
-    @BeforeAll
-    public void setup(){
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
 
     @Test
     void listCharacters() throws Exception {
