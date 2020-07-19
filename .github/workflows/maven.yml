@@ -20,7 +20,7 @@ jobs:
         with: 
           java-version: 11
       - run: mvn -B package --file api/pom.xml
-      - run: mkdir staging && cp target/*.jar staging
+      - run: mkdir staging && cp api/target/*.jar staging
       - uses: actions/upload-artifact@v1
         with:
           name: Package
