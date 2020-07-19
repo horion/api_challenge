@@ -1,7 +1,7 @@
 package br.com.challenge.dextra.api.controller;
 
 import br.com.challenge.dextra.api.controller.dto.CharacterDTO;
-import br.com.challenge.dextra.api.controller.dto.ErrorFormDto;
+import br.com.challenge.dextra.api.controller.dto.ErrorFormDTO;
 import br.com.challenge.dextra.api.controller.dto.Response;
 import br.com.challenge.dextra.api.controller.exception.HouseNotFoundException;
 import br.com.challenge.dextra.api.controller.form.CharacterForm;
@@ -58,7 +58,7 @@ public class CharacterController {
             return ResponseEntity.created(uri).body(new CharacterDTO(character));
         }catch (HouseNotFoundException e){
             LOGGER.error(e.getMessage(),e);
-            return ResponseEntity.badRequest().body(new ErrorFormDto("house","Not found house by id"));
+            return ResponseEntity.badRequest().body(new ErrorFormDTO("house","Not found house by id"));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -87,7 +87,7 @@ public class CharacterController {
             return ResponseEntity.ok(body);
         }catch (HouseNotFoundException e){
             LOGGER.error("House not Found by id");
-            return ResponseEntity.badRequest().body(new ErrorFormDto("house","Not found house by id"));
+            return ResponseEntity.badRequest().body(new ErrorFormDTO("house","Not found house by id"));
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

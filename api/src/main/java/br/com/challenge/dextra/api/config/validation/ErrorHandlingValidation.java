@@ -1,6 +1,6 @@
 package br.com.challenge.dextra.api.config.validation;
 
-import br.com.challenge.dextra.api.controller.dto.ErrorFormDto;
+import br.com.challenge.dextra.api.controller.dto.ErrorFormDTO;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -24,10 +24,10 @@ public class ErrorHandlingValidation {
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public List<ErrorFormDto> handle(MethodArgumentNotValidException e){
+    public List<ErrorFormDTO> handle(MethodArgumentNotValidException e){
         List<FieldError> fieldErrors =  e.getBindingResult().getFieldErrors();
         return fieldErrors.stream().map(fieldError ->
-                new ErrorFormDto(fieldError.getField(),messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()))).collect(Collectors.toList());
+                new ErrorFormDTO(fieldError.getField(),messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()))).collect(Collectors.toList());
     }
 
 }
