@@ -2,18 +2,15 @@ version: '3'
 services:
   api:
     container_name: api
-    build: api
+    image: horion2/api
     restart: always
-    volumes:
-      - ./api/target:/usr/local/dextra/api/
     logging:
       driver: "json-file"
       options:
         max-size: 50m
         max-file: "3" 
     ports:
-      - '9991:9991'
-      - '5005:5005'
+      - '80:80'
     links:
       - database
   database:
