@@ -177,5 +177,10 @@ class CharacterServiceImplTest {
 
     @Test
     void deleteById() {
+
+        characterService.deleteById("2813751298093rfgidhks");
+
+        verify(characterRepository,times(1)).deleteById(eq("2813751298093rfgidhks"));
+
     }
 }
