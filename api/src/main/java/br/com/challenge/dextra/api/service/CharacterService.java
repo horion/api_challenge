@@ -17,5 +17,5 @@ public interface CharacterService {
 
     Character merge(String token,Character character) throws IOException, HouseNotFoundException;
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 }

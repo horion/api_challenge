@@ -22,6 +22,9 @@ public class CharacterDTO extends Response {
         this.patronus = character.getPatronus();
     }
 
+    public CharacterDTO() {
+    }
+
     public static Page<Response> converter(Page<Character> characterPage) {
         return characterPage.map(CharacterDTO::new);
     }

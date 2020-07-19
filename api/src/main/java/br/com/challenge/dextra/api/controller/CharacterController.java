@@ -97,14 +97,16 @@ public class CharacterController {
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<?> delete(@PathVariable String id){
-        Character characterDB = characterService.getById(id);
-        if(characterDB == null){
-            return ResponseEntity.notFound().build();
+        try{
+            Character characterDB = characterService.getById(id);
+            if(characterDB == null){
+                return ResponseEntity.notFound().build();
+            }
+            characterService.deleteById(id);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            LOGGER.error(e.getMessage(),e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        characterService.deleteById(id);
-        return ResponseEntity.ok().build();
     }
-
-
-
 }

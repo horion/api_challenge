@@ -7,6 +7,8 @@ import br.com.challenge.dextra.api.repository.CharacterRepository;
 import br.com.challenge.dextra.api.service.CharacterService;
 import br.com.challenge.dextra.api.util.Util;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
@@ -25,6 +27,9 @@ public class CharacterServiceImpl implements CharacterService {
     private final RestTemplate template;
     private final Properties properties;
     private final CharacterRepository characterRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CharacterServiceImpl.class);
+
 
 
     public CharacterServiceImpl(RestTemplate template, Properties properties, CharacterRepository characterRepository) {
@@ -56,7 +61,7 @@ public class CharacterServiceImpl implements CharacterService {
         return characterRepository.save(character);
     }
 
-    private boolean validationHouse(String houseId,String token) throws IOException {
+    public boolean validationHouse(String houseId,String token) throws IOException {
         String endpoint = properties.getServer().concat(HOUSES).concat(houseId).concat(KEY).concat(token);
         ResponseEntity<String> responseEntity = template.exchange(endpoint, HttpMethod.GET, null, String.class);
         String body =  responseEntity.getBody();
@@ -65,7 +70,8 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public void deleteById(String id) {
+    public boolean deleteById(String id) {
         characterRepository.deleteById(id);
+        return true;
     }
 }
