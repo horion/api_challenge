@@ -16,6 +16,7 @@ services:
   database:
     image: 'mongo'
     container_name: database
+    restart: always
     environment:
       - MONGO_INITDB_DATABASE=dextra_api
       - MONGO_INITDB_ROOT_USERNAME=root
