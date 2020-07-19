@@ -2,11 +2,11 @@ package br.com.challenge.dextra.api.service.impl;
 
 import br.com.challenge.dextra.api.controller.exception.HouseNotFoundException;
 import br.com.challenge.dextra.api.model.Character;
+import br.com.challenge.dextra.api.properties.Properties;
 import br.com.challenge.dextra.api.repository.CharacterRepository;
 import br.com.challenge.dextra.api.service.CharacterService;
 import br.com.challenge.dextra.api.util.Util;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
@@ -23,13 +23,13 @@ public class CharacterServiceImpl implements CharacterService {
     private static final String KEY = "/?key=";
     private static final String ID = "_id";
     private final RestTemplate template;
-    @Value("${harry.potter.server}")
-    private String server;
+    private final Properties properties;
     private final CharacterRepository characterRepository;
 
 
-    public CharacterServiceImpl(RestTemplate template, CharacterRepository characterRepository) {
+    public CharacterServiceImpl(RestTemplate template, Properties properties, CharacterRepository characterRepository) {
         this.template = template;
+        this.properties = properties;
         this.characterRepository = characterRepository;
     }
 
@@ -57,7 +57,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     private boolean validationHouse(String houseId,String token) throws IOException {
-        String endpoint = server.concat(HOUSES).concat(houseId).concat(KEY).concat(token);
+        String endpoint = properties.getServer().concat(HOUSES).concat(houseId).concat(KEY).concat(token);
         ResponseEntity<String> responseEntity = template.exchange(endpoint, HttpMethod.GET, null, String.class);
         String body =  responseEntity.getBody();
         JsonNode jsonNode = Util.getJson(body);
