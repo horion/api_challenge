@@ -124,9 +124,10 @@ Seguir o tutorial de instalação do [docker-compose](https://docs.docker.com/co
 
 Baixar o [docker-compose.yaml](https://github.com/horion/api_challenge/blob/master/docker-compose.yaml)     
 
-Executar o comando:  
+Executar os comandos:  
 
 ```
+docker-compose pull
 docker-compose up -d
 ```
 
