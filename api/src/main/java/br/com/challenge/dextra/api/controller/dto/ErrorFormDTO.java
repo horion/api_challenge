@@ -1,5 +1,9 @@
 package br.com.challenge.dextra.api.controller.dto;
 
+/**
+ * A classe ErrorFormDTO, é uma classe de transporte, responsável em transportar as informações de possíveis erros
+ * que tenham acontecido durante a utilização da API.
+ */
 public class ErrorFormDTO extends Response{
 
     private static final long serialVersionUID = -7384048837745373568L;

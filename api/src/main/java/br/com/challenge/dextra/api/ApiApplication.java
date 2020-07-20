@@ -8,12 +8,19 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * Classe principal do spring, responsável por ativar algumas configurações e instanciar alguns beans
+ */
 @SpringBootApplication
 @EnableSpringDataWebSupport
 @EnableCaching
 @EnableSwagger2
 public class ApiApplication {
 
+    /**
+     * @return RestTemplate
+     * Criação do Bean RestTemplate
+     */
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();

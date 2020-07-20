@@ -23,8 +23,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+/**
+ * Classe CharacterController, é uma Bean Spring do tipo RestController, ou seja, responsável por expor endpoints RESTful.
+ * Neste caso, os endpoints que estão sendo expostos são os de manipulação de character , criar, listar, apagar, detalhar e atualizar
+ */
 @RestController
-@RequestMapping("/characters")
+@RequestMapping("/api/characters")
 public class CharacterController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CharacterController.class);
@@ -35,6 +39,14 @@ public class CharacterController {
         this.characterService = characterService;
     }
 
+    /**
+     * @param house
+     * @param pageable
+     * @return Page<Response>
+     *
+     * O método listCharacter, é um endpoint do tipo GET, que pode receber informações personalizadas de paginação
+     * e/ou um houseId para listar os characters por um filtro específico. Se houseId for nulo, não haverá filtro de busca
+     */
     @GetMapping
     @Cacheable(value = "listCharacters")
     public Page<Response> listCharacters(@RequestParam(required = false) String house,
@@ -48,6 +60,17 @@ public class CharacterController {
         return CharacterDTO.converter(characterPage);
     }
 
+    /**
+     * @param token
+     * @param form
+     * @param uriComponentsBuilder
+     * @return ResponseEntity<Response>
+     *
+     *  O método create, é um endpoint do tipo POST, que recebe o header token, esse token é o token da Potter Api,
+     *  E recebe o CharacterForm no corpo do método, esse form contém as informações necessárias para a criação de um
+     *  Character
+     *
+     */
     @PostMapping
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<Response> create(@RequestHeader String token, @RequestBody
@@ -66,6 +89,14 @@ public class CharacterController {
 
     }
 
+    /**
+     * @param id
+     * @return ResponseEntity<Response>
+     *
+     * O método detail, é um endpoint do tipo GET, que recebe o parâmetro id via URL, este método é responsável e fazer uma
+     * consulta através do Id informado e retorna as informações de um usuário específico
+     *
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Response> detail(@PathVariable String id){
         Character characterDB = characterService.getById(id);
@@ -75,6 +106,15 @@ public class CharacterController {
         return ResponseEntity.ok(new CharacterDTO(characterDB));
     }
 
+    /**
+     * @param form
+     * @param id
+     * @param token
+     * @return ResponseEntity<Response>
+     *
+     *  O método update, é um endpoint do tipo PUT e é responsável por atualizar um character específico, atravéns do id informado pela
+     *  URL. As novas informações, também são passadas via CharacterForm no body
+     */
     @PutMapping("/{id}")
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<Response> update(@RequestBody @Valid CharacterForm form, @PathVariable String id,@RequestHeader String token){
@@ -94,6 +134,12 @@ public class CharacterController {
         }
     }
 
+    /**
+     * @param id
+     * @return ResponseEntity<?>
+     * O método delete, é um método do tipo DELETE e é responsável em excluir um usuário específico através do Id
+     * informado na URL
+     */
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<?> delete(@PathVariable String id){

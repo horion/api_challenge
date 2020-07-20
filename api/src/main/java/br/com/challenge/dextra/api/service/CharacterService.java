@@ -7,6 +7,11 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 
+
+/**
+ * A interface CharacterService, é um contrato de implementação, para tornar a interação com o controller mais simples
+ * e genérica.
+ */
 public interface CharacterService {
 
     Page<Character> listCharacters(Pageable pageable);

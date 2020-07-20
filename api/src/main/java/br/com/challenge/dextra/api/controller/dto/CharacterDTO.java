@@ -3,6 +3,9 @@ package br.com.challenge.dextra.api.controller.dto;
 import br.com.challenge.dextra.api.model.Character;
 import org.springframework.data.domain.Page;
 
+/**
+ * A classe CharacterDTO, é uma classe de transporte. Seu papel é no retorno de informações da API
+ */
 public class CharacterDTO extends Response {
 
     private static final long serialVersionUID = -6636737612641449445L;
@@ -25,6 +28,11 @@ public class CharacterDTO extends Response {
     public CharacterDTO() {
     }
 
+    /**
+     * O método converter, recebe um Page<Character> e converte para o objeto de transporte
+     * @param characterPage
+     * @return Page<Response>
+     */
     public static Page<Response> converter(Page<Character> characterPage) {
         return characterPage.map(CharacterDTO::new);
     }

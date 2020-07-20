@@ -18,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
+/**
+ * A classe CharacterServiceImpl, é um Bean do Spring, do tipo Service, responsável por encapsular a lógica de negócio
+ */
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
@@ -28,9 +31,6 @@ public class CharacterServiceImpl implements CharacterService {
     private final Properties properties;
     private final CharacterRepository characterRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CharacterServiceImpl.class);
-
-
 
     public CharacterServiceImpl(RestTemplate template, Properties properties, CharacterRepository characterRepository) {
         this.template = template;
@@ -38,21 +38,49 @@ public class CharacterServiceImpl implements CharacterService {
         this.characterRepository = characterRepository;
     }
 
+    /**
+     * @param pageable
+     * @return Page<Character>
+     * O método listCharacters, recebe o pageable do Controller e chama o characterRepository para fazer a requisição ao banco.
+     */
     @Override
     public Page<Character> listCharacters(Pageable pageable) {
         return characterRepository.findAll(pageable);
     }
 
+    /**
+     * @param pageable
+     * @param house
+     * @return Page<Character>
+     * O método listCharactersByHouse, recebe o pageable e o house Id do Controller e chama o characterRepository para fazer a requisição ao banco.
+     */
     @Override
     public Page<Character> listCharactersByHouse(Pageable pageable, String house) {
         return characterRepository.findAllByHouse(pageable,house);
     }
 
+    /**
+     * @param id
+     * @return Character
+     * O método getById, recebe o Id do Controller e chama o characterRepository para fazer a requisição ao banco.
+     * O método characterRepository.findById, entrega um Optional, então usamos a estrutura orElse, para caso o registro não seja encotrado
+     * passamos para a camada de cima, o null.
+     */
     @Override
     public Character getById(String id) {
         return characterRepository.findById(id).orElse(null);
     }
 
+    /**
+     * @param token
+     * @param character
+     * @return Character
+     * @throws IOException
+     * @throws HouseNotFoundException
+     *
+     * O método merge, recebe o token da Potter Api e o Character a ser salvo, do CharacterController. Fazemos algumas validações de negócio e caso tudo
+     * estja correto, é invocado o método save do characterRepository.
+     */
     @Override
     public Character merge(String token,Character character) throws IOException, HouseNotFoundException {
         if(!validationHouse(character.getHouse(),token)){
@@ -61,6 +89,15 @@ public class CharacterServiceImpl implements CharacterService {
         return characterRepository.save(character);
     }
 
+    /**
+     * @param houseId
+     * @param token
+     * @return boolean
+     * @throws IOException
+     *
+     * O método validationHouse, é responsável por pegar o houseId e verificar se ele está presente na Potter API, para isso, é necessário receber
+     * o token da Potter Api e o houseId do character que queremos validar.
+     */
     public boolean validationHouse(String houseId,String token) throws IOException {
         String endpoint = properties.getServer().concat(HOUSES).concat(houseId).concat(KEY).concat(token);
         ResponseEntity<String> responseEntity = template.exchange(endpoint, HttpMethod.GET, null, String.class);
@@ -69,6 +106,11 @@ public class CharacterServiceImpl implements CharacterService {
         return jsonNode.get(0) != null && jsonNode.get(0).get(ID) != null;
     }
 
+    /**
+     * @param id
+     * @return boolean
+     * O método deleteById, recebe o Id do Controller e chama o método deleteById do characterRepository.
+     */
     @Override
     public boolean deleteById(String id) {
         characterRepository.deleteById(id);

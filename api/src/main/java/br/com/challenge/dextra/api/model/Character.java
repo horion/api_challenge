@@ -5,6 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
+/**
+ * A classe Character é uma entidade do tipo Documento, ou seja, uma entidade gerenciada pelo MongoDB e é responsável
+ * por armazenas as informações do Character no Banco de Dados.
+ */
 @Document
 public class Character {
 

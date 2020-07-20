@@ -10,6 +10,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfig {
 
+    /**
+     * Este método é responsável pela configuração do Swagger, nele, setamos a versão do Swagger,
+     * Qual sera o pacote mapeado e quais endpoints serão exibidos.
+     * @return Docket
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("br.com.challenge.dextra.api"))

@@ -22,6 +22,13 @@ public class ErrorHandlingValidation {
         this.messageSource = messageSource;
     }
 
+    /**
+     * Este método é responsável pela interceptação de erros de formulário, qualquer erro de formulário capturado
+     * pelas classes de Form, esse Handler é ativado, devolvendo a resposta para o usuário atráves do status 400, no
+     * retorno podemos ter uma lista de erros. O ErroFormDTO, é composto de dois campos, o campo field e o campo mensagem
+     * @param e
+     * @return List<ErrorFormDTO>
+     */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<ErrorFormDTO> handle(MethodArgumentNotValidException e){
