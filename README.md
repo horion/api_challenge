@@ -48,7 +48,7 @@ DockerHub: Registry público robusto,confiável e integrado ao GitHub Actions
 Utilizei a estrutura de projeto baseado na responsabilidade dos níveis, ou seja, controllers ficaram no package controllers, services no package services e etc.  
 Outro detalhe sobre o projeto, é a ideia do padrão DTO  e Form. DTO só transporte e apenas com lógicas de conversão e o Form, com lógicas de conversão e validação.  
 Segui o princípio Open Close nos services, ou seja, a ideia é sempre extender  
-Segui o padrão Service-Repository, ou seja, os controllers não acessam direto o service, diminuindo o acoplamento  
+Segui o padrão Service-Repository, ou seja, os controllers não acessam direto o Repository, diminuindo o acoplamento  
 ```
 ├── api.iml
 ├── Dockerfile
