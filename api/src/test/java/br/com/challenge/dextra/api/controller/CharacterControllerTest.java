@@ -58,7 +58,7 @@ class CharacterControllerTest {
 
         given(characterService.listCharacters(any(Pageable.class))).willReturn(page);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/characters")).andExpect(status().isOk())
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/characters")).andExpect(status().isOk())
                 .andExpect(content().json("{\"content\":[{\"id\":\"12782617282\",\"name\":\"Harry Potter\",\"role\":\"student\",\"school\":\"Hogwarts School of Witchcraft and Wizardry\",\"house\":\"5a05e2b252f721a3cf2ea33f\",\"patronus\":\"stag\"}],\"pageable\":\"INSTANCE\",\"last\":true,\"totalPages\":1,\"totalElements\":1,\"first\":true,\"sort\":{\"sorted\":false,\"unsorted\":true,\"empty\":true},\"number\":0,\"numberOfElements\":1,\"size\":1,\"empty\":false}"));
     }
 
@@ -70,7 +70,7 @@ class CharacterControllerTest {
 
         given(characterService.listCharacters(any(Pageable.class))).willReturn(page);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/characters")).andExpect(status().isOk());
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/characters")).andExpect(status().isOk());
     }
 
     @Test
@@ -88,7 +88,7 @@ class CharacterControllerTest {
 
         given(characterService.listCharactersByHouse(any(Pageable.class),eq("5a05e2b252f721a3cf2ea33f"))).willReturn(page);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/characters/?house=5a05e2b252f721a3cf2ea33f")).andExpect(status().isOk())
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/characters/?house=5a05e2b252f721a3cf2ea33f")).andExpect(status().isOk())
                 .andExpect(content().json("{\"content\":[{\"id\":\"12782617282\",\"name\":\"Harry Potter\",\"role\":\"student\",\"school\":\"Hogwarts School of Witchcraft and Wizardry\",\"house\":\"5a05e2b252f721a3cf2ea33f\",\"patronus\":\"stag\"}],\"pageable\":\"INSTANCE\",\"last\":true,\"totalPages\":1,\"totalElements\":1,\"first\":true,\"sort\":{\"sorted\":false,\"unsorted\":true,\"empty\":true},\"number\":0,\"numberOfElements\":1,\"size\":1,\"empty\":false}"));
     }
 
@@ -119,7 +119,7 @@ class CharacterControllerTest {
 
         given(characterService.merge(eq("871278ewdfu183y2881211332"),any(Character.class))).willReturn(character);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/characters")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/characters")
                 .contentType(MediaType.APPLICATION_JSON).content(requestJson).header("token","871278ewdfu183y2881211332"))
                 .andDo(print()).andExpect(status().isCreated());
 
@@ -152,7 +152,7 @@ class CharacterControllerTest {
 
         given(characterService.merge(eq("871278ewdfu183y2881211332"),any(Character.class))).willThrow(HouseNotFoundException.class);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/characters")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/characters")
                 .contentType(MediaType.APPLICATION_JSON).content(requestJson).header("token","871278ewdfu183y2881211332"))
                 .andDo(print()).andExpect(status().isBadRequest());
 
@@ -171,7 +171,7 @@ class CharacterControllerTest {
 
         given(characterService.getById(eq("12782617282"))).willReturn(character);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/characters/{id}","12782617282")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/characters/{id}","12782617282")
                 .accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("12782617282"));
     }
@@ -189,7 +189,7 @@ class CharacterControllerTest {
 
         given(characterService.getById(eq("12782617282"))).willReturn(null);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/characters/{id}","12782617282")
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/characters/{id}","12782617282")
                 .accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound());
     }
 
@@ -222,7 +222,7 @@ class CharacterControllerTest {
 
         given(characterService.merge(eq("871278ewdfu183y2881211332"),any(Character.class))).willReturn(character);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/characters/{id}","12782617282")
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/characters/{id}","12782617282")
                 .contentType(MediaType.APPLICATION_JSON).content(requestJson).header("token","871278ewdfu183y2881211332"))
                 .andDo(print()).andExpect(status().isOk());
 
@@ -258,7 +258,7 @@ class CharacterControllerTest {
 
         given(characterService.merge(eq("871278ewdfu183y2881211332"),any(Character.class))).willReturn(character);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/characters/{id}","12782617282")
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/characters/{id}","12782617282")
                 .contentType(MediaType.APPLICATION_JSON).content(requestJson).header("token","871278ewdfu183y2881211332"))
                 .andDo(print()).andExpect(status().isNotFound());
     }
@@ -292,7 +292,7 @@ class CharacterControllerTest {
 
         given(characterService.merge(eq("871278ewdfu183y2881211332"),any(Character.class))).willThrow(HouseNotFoundException.class);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/characters/{id}","12782617282")
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/characters/{id}","12782617282")
                 .contentType(MediaType.APPLICATION_JSON).content(requestJson).header("token","871278ewdfu183y2881211332"))
                 .andDo(print()).andExpect(status().isBadRequest());
 
@@ -315,7 +315,7 @@ class CharacterControllerTest {
 
         given(characterService.deleteById(eq("12782617282"))).willReturn(true);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/characters/{id}","12782617282"))
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/characters/{id}","12782617282"))
                 .andDo(print()).andExpect(status().isOk());
     }
 
@@ -324,7 +324,7 @@ class CharacterControllerTest {
 
         given(characterService.deleteById(eq("12782617282"))).willReturn(true);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/characters/{id}","12782617282"))
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/characters/{id}","12782617282"))
                 .andDo(print()).andExpect(status().isNotFound());
     }
 
