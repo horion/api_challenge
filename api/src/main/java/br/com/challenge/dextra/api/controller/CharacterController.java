@@ -7,6 +7,7 @@ import br.com.challenge.dextra.api.controller.exception.HouseNotFoundException;
 import br.com.challenge.dextra.api.controller.form.CharacterForm;
 import br.com.challenge.dextra.api.model.Character;
 import br.com.challenge.dextra.api.service.CharacterService;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -47,6 +48,17 @@ public class CharacterController {
      * O método listCharacter, é um endpoint do tipo GET, que pode receber informações personalizadas de paginação
      * e/ou um houseId para listar os characters por um filtro específico. Se houseId for nulo, não haverá filtro de busca
      */
+    @ApiOperation(value = "Listar os personagens cadastrados",
+            notes = ".listCharacters()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Listagem realizada com sucesso",
+                    response = Page.class),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "house", paramType = "path",
+                    value = "Id da casa que deseja filtrar, se não passar nenhum, a busca será por todas as casas")
+    })
     @GetMapping
     @Cacheable(value = "listCharacters")
     public Page<Response> listCharacters(@RequestParam(required = false) String house,
@@ -71,6 +83,22 @@ public class CharacterController {
      *  Character
      *
      */
+    @ApiOperation(value = "Criar um personagem",
+            notes = ".create()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Criação realizada com sucesso",
+                    response = CharacterDTO.class),
+            @ApiResponse(code = 400, message = "Não foi possível cadastrar este personagem, verificar os parâmetros informados",
+                    response = Page.class),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "form", paramType = "body",
+                    value = "Informações do personagem a ser cadastrado"),
+            @ApiImplicitParam(name = "token", paramType = "header",
+                    value = "Token da Potter API, se não tiver um, utilizar: $2a$10$ZOElEX6GhOLFACcXBcrSKuZXzBs0GJOpg/0/NO6P31tz97ntOQOhS")
+
+    })
     @PostMapping
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<Response> create(@RequestHeader String token, @RequestBody
@@ -97,6 +125,19 @@ public class CharacterController {
      * consulta através do Id informado e retorna as informações de um usuário específico
      *
      */
+    @ApiOperation(value = "Buscar um personagem",
+            notes = ".detail()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso",
+                    response = CharacterDTO.class),
+            @ApiResponse(code = 404, message = "Não foi possível encontrar este personagem, verificar os parâmetros informados",
+                    response = Page.class),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "id", paramType = "path",
+                    value = "Id do personagem cadastrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Response> detail(@PathVariable String id){
         Character characterDB = characterService.getById(id);
@@ -115,6 +156,24 @@ public class CharacterController {
      *  O método update, é um endpoint do tipo PUT e é responsável por atualizar um character específico, atravéns do id informado pela
      *  URL. As novas informações, também são passadas via CharacterForm no body
      */
+    @ApiOperation(value = "Atualizar um personagem",
+            notes = ".update()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Atualização realizada com sucesso",
+                    response = CharacterDTO.class),
+            @ApiResponse(code = 400, message = "Não foi possível atualizar este personagem, verificar os parâmetros informados",
+                    response = Page.class),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "form", paramType = "body",
+                    value = "Informações do personagem a ser cadastrado"),
+            @ApiImplicitParam(name = "token", paramType = "header",
+                    value = "Token da Potter API, se não tiver um, utilizar: $2a$10$ZOElEX6GhOLFACcXBcrSKuZXzBs0GJOpg/0/NO6P31tz97ntOQOhS"),
+            @ApiImplicitParam(name = "id", paramType = "path",
+                    value = "Id do personagem cadastrado")
+
+    })
     @PutMapping("/{id}")
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<Response> update(@RequestBody @Valid CharacterForm form, @PathVariable String id,@RequestHeader String token){
@@ -140,6 +199,18 @@ public class CharacterController {
      * O método delete, é um método do tipo DELETE e é responsável em excluir um usuário específico através do Id
      * informado na URL
      */
+    @ApiOperation(value = "Deletar um personagem",
+            notes = ".delete()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Deleção realizada com sucesso"),
+            @ApiResponse(code = 404, message = "Não foi possível encontrar este personagem, verificar os parâmetros informados",
+                    response = Page.class),
+            @ApiResponse(code = 500, message = "Erro interno do servidor")
+    })
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "id", paramType = "path",
+                    value = "Id do personagem cadastrado")
+    })
     @DeleteMapping("/{id}")
     @CacheEvict(value = "listCharacters", allEntries = true)
     public ResponseEntity<?> delete(@PathVariable String id){
