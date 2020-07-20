@@ -56,7 +56,7 @@ public class CharacterController {
             @ApiResponse(code = 500, message = "Erro interno do servidor")
     })
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "house", paramType = "path",
+            @ApiImplicitParam(name = "house", paramType = "query",
                     value = "Id da casa que deseja filtrar, se não passar nenhum, a busca será por todas as casas")
     })
     @GetMapping
