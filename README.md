@@ -159,6 +159,18 @@ Exemplo de criação de usuário:
 curl -X POST "http://localhost/api/characters" -H "accept: */*" -H "token: $2a$10$ZOElEX6GhOLFACcXBcrSKuZXzBs0GJOpg/0/NO6P31tz97ntOQOhS" -H "Content-Type: application/json" -d "{ \"name\": \"Harry Potter\", \"role\": \"student\", \"school\": \"Hogwarts School of Witchcraft and Wizardry\", \"house\": \"5a05e2b252f721a3cf2ea33f\", \"patronus\": \"stag\"}"
 ```
 
+JSON aceito pelo Form:
+
+```
+{
+    "name": "Harry Potter",
+    "role": "student",
+    "school": "Hogwarts School of Witchcraft and Wizardry",
+    "house": "5a05e2b252f721a3cf2ea33f",
+    "patronus": "stag"
+}
+```
+
 O único campo não obrigatorio na criação/atualização do usuário é o Patronus, segue explicação dos fãs:
 [History Patronus](https://aminoapps.com/c/potter-amino-em-portugues/page/blog/bruxos-das-trevas-nao-podem-conjurar-um-patrono/j4XN_0eSKuJDZBzDljKjEeEKbVpZ1rmgnB)  
 
