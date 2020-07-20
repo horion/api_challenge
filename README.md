@@ -116,7 +116,7 @@ DockerHub: Registry público robusto,confiável e integrado ao GitHub Actions
 
 ## Deploy
 
-### Requisitos: Linux, Docker e Docker-comose
+### Requisitos: Linux, Docker e Docker-compose
 
 Seguir o tutorial de instalação do [docker](https://docs.docker.com/v17.09/engine/installation/#updates-and-patches)  
 
