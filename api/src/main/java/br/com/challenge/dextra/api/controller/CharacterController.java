@@ -88,12 +88,11 @@ public class CharacterController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Criação realizada com sucesso",
                     response = CharacterDTO.class),
-            @ApiResponse(code = 400, message = "Não foi possível cadastrar este personagem, verificar os parâmetros informados",
-                    response = Page.class),
+            @ApiResponse(code = 400, message = "Não foi possível cadastrar este personagem, verificar os parâmetros informados"),
             @ApiResponse(code = 500, message = "Erro interno do servidor")
     })
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "form", paramType = "body",
+            @ApiImplicitParam(name = "form", paramType = "body", dataType = "CharacterForm",
                     value = "Informações do personagem a ser cadastrado"),
             @ApiImplicitParam(name = "token", paramType = "header",
                     value = "Token da Potter API, se não tiver um, utilizar: $2a$10$ZOElEX6GhOLFACcXBcrSKuZXzBs0GJOpg/0/NO6P31tz97ntOQOhS")
@@ -130,8 +129,7 @@ public class CharacterController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Busca realizada com sucesso",
                     response = CharacterDTO.class),
-            @ApiResponse(code = 404, message = "Não foi possível encontrar este personagem, verificar os parâmetros informados",
-                    response = Page.class),
+            @ApiResponse(code = 404, message = "Não foi possível encontrar este personagem, verificar os parâmetros informados"),
             @ApiResponse(code = 500, message = "Erro interno do servidor")
     })
     @ApiImplicitParams(value = {
@@ -161,12 +159,11 @@ public class CharacterController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Atualização realizada com sucesso",
                     response = CharacterDTO.class),
-            @ApiResponse(code = 400, message = "Não foi possível atualizar este personagem, verificar os parâmetros informados",
-                    response = Page.class),
+            @ApiResponse(code = 400, message = "Não foi possível atualizar este personagem, verificar os parâmetros informados"),
             @ApiResponse(code = 500, message = "Erro interno do servidor")
     })
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "form", paramType = "body",
+            @ApiImplicitParam(name = "form", paramType = "body", dataType = "CharacterForm",
                     value = "Informações do personagem a ser cadastrado"),
             @ApiImplicitParam(name = "token", paramType = "header",
                     value = "Token da Potter API, se não tiver um, utilizar: $2a$10$ZOElEX6GhOLFACcXBcrSKuZXzBs0GJOpg/0/NO6P31tz97ntOQOhS"),
@@ -203,8 +200,7 @@ public class CharacterController {
             notes = ".delete()")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Deleção realizada com sucesso"),
-            @ApiResponse(code = 404, message = "Não foi possível encontrar este personagem, verificar os parâmetros informados",
-                    response = Page.class),
+            @ApiResponse(code = 404, message = "Não foi possível encontrar este personagem, verificar os parâmetros informados"),
             @ApiResponse(code = 500, message = "Erro interno do servidor")
     })
     @ApiImplicitParams(value = {
