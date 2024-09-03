@@ -38,7 +38,7 @@ jobs:
         - name: Docker login
           run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
         - name: Download artifacts
-          uses: actions/download-artifact@v1
+          uses: actions/download-artifact@v4.1.7
           with:
             name: Package
         - name: Build
